@@ -58,7 +58,7 @@ export const Footer: React.FC<FooterProps> = ({ setView }) => {
               <li><button onClick={() => setView('caf')}>Common Application Form (CAF)</button></li>
               <li><button onClick={() => setView('compass')}>Career Compass Quiz</button></li>
               <li><button onClick={() => setView('dashboard')}>Student Application Dashboard</button></li>
-              <li><button onClick={() => setView('home')}>Entrance Exams Directory</button></li>
+              <li><button onClick={() => setView('admin')}>Admin Portal Control</button></li>
             </ul>
           </div>
 

@@ -4,6 +4,7 @@ import { Footer } from './components/Footer';
 import { CompareShelf } from './components/CompareShelf';
 import { SaarthiGPT } from './components/SaarthiGPT';
 import { ShareModal } from './components/ShareModal';
+import { AdminView } from './views/AdminView';
 import { Home } from './views/Home';
 import { Directory } from './views/Directory';
 import { PredictorView } from './views/PredictorView';
@@ -18,7 +19,17 @@ function App() {
   const [streamFilter, setStreamFilter] = useState<string>('All');
   const [selectedCompare, setSelectedCompare] = useState<College[]>([]);
   const [shortlistedColleges, setShortlistedColleges] = useState<College[]>([]);
-  const [applications, setApplications] = useState<any[]>([]);
+  
+  // Persistent localStorage applications & leads states
+  const [applications, setApplications] = useState<any[]>(() => {
+    const stored = localStorage.getItem('careergrazers_applications');
+    return stored ? JSON.parse(stored) : [];
+  });
+  const [leads, setLeads] = useState<any[]>(() => {
+    const stored = localStorage.getItem('careergrazers_leads');
+    return stored ? JSON.parse(stored) : [];
+  });
+
   const [preselectedCollegeName, setPreselectedCollegeName] = useState<string | null>(null);
   const [activeSelectedCollegeId, setActiveSelectedCollegeId] = useState<string | null>(null);
   const [saarthiOpen, setSaarthiOpen] = useState<boolean>(false);
@@ -78,9 +89,57 @@ function App() {
     });
   };
 
-  // Append new application from CAF submissions
+  // Sync new application from CAF submissions
   const handleSubmitCAF = (newApp: any) => {
-    setApplications(prev => [newApp, ...prev]);
+    setApplications(prev => {
+      const updated = [newApp, ...prev];
+      localStorage.setItem('careergrazers_applications', JSON.stringify(updated));
+      return updated;
+    });
+  };
+
+  // Sync new counseling lead registration
+  const handleAddLead = (newLead: any) => {
+    setLeads(prev => {
+      const updated = [newLead, ...prev];
+      localStorage.setItem('careergrazers_leads', JSON.stringify(updated));
+      return updated;
+    });
+  };
+
+  // Admin portal update callbacks
+  const handleUpdateAppStatus = (appId: string, collegeId: string, newStatus: string) => {
+    setApplications(prev => {
+      const updated = prev.map(app => {
+        if (app.id === appId) {
+          return {
+            ...app,
+            appliedColleges: app.appliedColleges.map((col: any) => {
+              if (col.id === collegeId) {
+                return { ...col, status: newStatus };
+              }
+              return col;
+            })
+          };
+        }
+        return app;
+      });
+      localStorage.setItem('careergrazers_applications', JSON.stringify(updated));
+      return updated;
+    });
+  };
+
+  const handleUpdateLeadStatus = (leadId: string, newStatus: string) => {
+    setLeads(prev => {
+      const updated = prev.map(lead => {
+        if (lead.id === leadId) {
+          return { ...lead, status: newStatus };
+        }
+        return lead;
+      });
+      localStorage.setItem('careergrazers_leads', JSON.stringify(updated));
+      return updated;
+    });
   };
 
   const handleOpenChat = () => setSaarthiOpen(true);
@@ -107,6 +166,7 @@ function App() {
             colleges={collegesData}
             onSelectCollege={handleSelectCollege}
             openChat={handleOpenChat}
+            onAddLead={handleAddLead}
           />
         )}
         {currentView === 'directory' && (
@@ -151,6 +211,14 @@ function App() {
             onSelectCollege={handleSelectCollege}
             onRemoveShortlist={handleRemoveShortlist}
             shortlistedColleges={shortlistedColleges}
+          />
+        )}
+        {currentView === 'admin' && (
+          <AdminView
+            applications={applications}
+            leads={leads}
+            onUpdateAppStatus={handleUpdateAppStatus}
+            onUpdateLeadStatus={handleUpdateLeadStatus}
           />
         )}
       </main>

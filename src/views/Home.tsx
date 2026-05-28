@@ -10,9 +10,10 @@ interface HomeProps {
   colleges: College[];
   onSelectCollege: (collegeId: string) => void;
   openChat: () => void;
+  onAddLead: (lead: any) => void;
 }
 
-export const Home: React.FC<HomeProps> = ({ setView, setStreamFilter, colleges, onSelectCollege, openChat }) => {
+export const Home: React.FC<HomeProps> = ({ setView, setStreamFilter, colleges, onSelectCollege, openChat, onAddLead }) => {
   const [leadName, setLeadName] = useState('');
   const [leadPhone, setLeadPhone] = useState('');
   const [leadStream, setLeadStream] = useState('Engineering');
@@ -21,6 +22,16 @@ export const Home: React.FC<HomeProps> = ({ setView, setStreamFilter, colleges, 
   const handleLeadSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (leadName.trim() && leadPhone.trim()) {
+      const uniqueId = `LEAD-${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
+      const newLead = {
+        id: uniqueId,
+        name: leadName,
+        phone: leadPhone,
+        stream: leadStream,
+        status: 'Allocated',
+        date: new Date().toLocaleDateString('en-IN')
+      };
+      onAddLead(newLead);
       setLeadSubmitted(true);
       setLeadName('');
       setLeadPhone('');
