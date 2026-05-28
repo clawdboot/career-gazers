@@ -1,0 +1,135 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  /* HSL Color System */
+  --primary-navy: hsl(220, 45%, 12%);      /* #111a2e */
+  --primary-blue: fill-navy;
+  
+  --brand-navy: hsl(222, 47%, 9%);         /* Deep Background dark color */
+  --brand-navy-light: hsl(220, 35%, 18%);   /* Cards, Navs background */
+  
+  --accent-coral: hsl(14, 90%, 55%);        /* Primary buttons/badges */
+  --accent-purple: hsl(262, 85%, 60%);      /* Secondary buttons/gradients */
+  --accent-teal: hsl(182, 85%, 45%);        /* Success badges, highlights */
+  
+  --navy-dark: hsl(220, 45%, 12%);
+  --navy-light: hsl(210, 30%, 98%);
+  
+  --text-white: hsl(0, 0%, 100%);
+  --text-navy: hsl(220, 45%, 15%);
+  --text-muted: hsl(215, 20%, 50%);
+  --text-light: hsl(0, 0%, 95%);
+  
+  --card-overlay: hsla(220, 30%, 96%, 0.7);
+  --glass-bg: hsla(0, 0%, 100%, 0.75);
+  --glass-border: hsla(0, 0%, 100%, 0.3);
+  
+  --font-heading: 'Outfit', 'Inter', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 8px 24px rgba(12, 23, 48, 0.08);
+  --shadow-lg: 0 16px 48px rgba(12, 23, 48, 0.16);
+  --shadow-glowing: 0 0 20px rgba(255, 69, 29, 0.25);
+  
+  --border-radius-sm: 8px;
+  --border-radius-md: 16px;
+  --border-radius-lg: 24px;
+}
+
+/* Global Reset styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--font-body);
+}
+
+body {
+  background-color: var(--navy-light);
+  color: var(--text-navy);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--primary-navy);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+button, input, select, textarea {
+  font-family: var(--font-body);
+  outline: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Scrollbar customization */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--navy-light);
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(220, 25%, 85%);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Helpers & Utilities */
+.gradient-text {
+  background: linear-gradient(135deg, var(--accent-coral), var(--accent-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-navy {
+  color: var(--primary-navy) !important;
+}
+
+.text-muted {
+  color: var(--text-muted) !important;
+}
+
+.text-accent {
+  color: var(--accent-coral) !important;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.font-medium {
+  font-weight: 500;
+}
+
+.mt-6 {
+  margin-top: 1.5rem;
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.text-xs {
+  font-size: 0.75rem;
+}
