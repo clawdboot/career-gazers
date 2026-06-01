@@ -4,6 +4,7 @@ import { College } from '../data/colleges';
 interface PredictorViewProps {
   colleges: College[];
   onApplyCollegeDirect: (collegeName: string) => void;
+  studentUser?: any | null;
 }
 
 interface PredictionResult {
@@ -13,12 +14,31 @@ interface PredictionResult {
   badgeColor: string;
 }
 
-export const PredictorView: React.FC<PredictorViewProps> = ({ colleges, onApplyCollegeDirect }) => {
+export const PredictorView: React.FC<PredictorViewProps> = ({ colleges, onApplyCollegeDirect, studentUser }) => {
   const [exam, setExam] = useState('JEE Main');
   const [rank, setRank] = useState<string>('');
   const [category, setCategory] = useState('General');
   const [quota, setQuota] = useState('All');
   const [predictions, setPredictions] = useState<PredictionResult[] | null>(null);
+
+  // Pre-fill exam parameters from active studentUser profile
+  React.useEffect(() => {
+    if (studentUser && studentUser.academics) {
+      const activeExam = studentUser.academics.exam;
+      if (activeExam && activeExam !== 'None') {
+        setExam(activeExam);
+        // Extract numeric digits from score/rank if it is a rank or score
+        // E.g. "AIR 14200" -> "14200", or "98.5 Percentile" -> "98.5"
+        const cleanScore = studentUser.academics.score;
+        const numMatch = cleanScore.replace(/,/g, '').match(/[\d.]+/);
+        if (numMatch) {
+          setRank(numMatch[0]);
+        } else {
+          setRank(cleanScore);
+        }
+      }
+    }
+  }, [studentUser]);
 
   const handlePredict = (e: React.FormEvent) => {
     e.preventDefault();

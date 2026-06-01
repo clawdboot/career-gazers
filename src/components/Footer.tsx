@@ -24,7 +24,7 @@ export const Footer: React.FC<FooterProps> = ({ setView }) => {
         <div className="footer-brand-section">
           <LogoImage className="h-10 w-auto mb-4" />
           <p className="footer-brand-desc">
-            Career Grazers is India's leading digital higher education counselor. We assist students in finding the right colleges, courses, and preparatory entrance exams through state-of-the-art interactive engines and artificial intelligence.
+            Career Gazers is India's leading digital higher education counselor. We assist students in finding the right colleges, courses, and preparatory entrance exams through state-of-the-art interactive engines and artificial intelligence.
           </p>
           <div className="footer-social-links">
             <a href="#social" className="social-icon" aria-label="Facebook">
@@ -83,7 +83,7 @@ export const Footer: React.FC<FooterProps> = ({ setView }) => {
       </div>
 
       <div className="footer-bottom">
-        <p>&copy; {new Date().getFullYear()} Career Grazers. All Rights Reserved. Premium Admissions & Counseling Portal.</p>
+        <p>&copy; {new Date().getFullYear()} Career Gazers. All Rights Reserved. Premium Admissions & Counseling Portal.</p>
         <div className="footer-bottom-links">
           <a href="#privacy">Privacy Policy</a>
           <span>•</span>

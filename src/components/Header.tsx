@@ -9,9 +9,22 @@ interface HeaderProps {
   onSelectCollege: (collegeId: string) => void;
   openChat: () => void;
   onShareOpen: () => void;
+  studentUser: any | null;
+  onOpenAuth: () => void;
+  onLogoutStudent: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ currentView, setView, colleges, onSelectCollege, openChat, onShareOpen }) => {
+export const Header: React.FC<HeaderProps> = ({ 
+  currentView, 
+  setView, 
+  colleges, 
+  onSelectCollege, 
+  openChat, 
+  onShareOpen,
+  studentUser,
+  onOpenAuth,
+  onLogoutStudent
+}) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [suggestions, setSuggestions] = useState<College[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -146,6 +159,14 @@ export const Header: React.FC<HeaderProps> = ({ currentView, setView, colleges, 
 
         {/* Utility / Right Section */}
         <div className="header-utilities">
+          {/* Admin Panel Toggle (Lock Icon) */}
+          <button className={`utility-btn admin-toggle-btn ${currentView === 'admin' ? 'active' : ''}`} onClick={() => setView('admin')} title="Admin Portal Control">
+            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+            <span className="admin-btn-label">Admin Panel</span>
+          </button>
+
           <button className="utility-btn share-trigger-btn" onClick={onShareOpen} title="Share Website Link">
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M8.684 10.742l4.828-2.414m0 0a3 3 0 10-3.62-4.3l-4.828 2.414m6.242 4.3a3 3 0 11-6.242 0 3 3 0 016.242 0zm-6.242 1.436l4.828 2.414a3 3 0 103.62-4.3l-4.828-2.414z" />
@@ -155,7 +176,7 @@ export const Header: React.FC<HeaderProps> = ({ currentView, setView, colleges, 
 
           <button className="utility-btn saarthi-trigger-btn" onClick={openChat} title="Chat with SaarthiGPT">
             <span className="live-indicator"></span>
-            <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
             </svg>
             <span className="saarthi-btn-label">SaarthiGPT</span>
@@ -167,6 +188,31 @@ export const Header: React.FC<HeaderProps> = ({ currentView, setView, colleges, 
             </svg>
             <span className="badge">3</span>
           </button>
+
+          {/* Student Profile Badge Dropdown or Sign In */}
+          {studentUser ? (
+            <div className="header-student-profile-wrapper">
+              <button className="utility-btn student-profile-avatar-btn" title="View Profile Options">
+                {studentUser.fullName.split(' ').map((n: string) => n[0]).join('').toUpperCase().substring(0, 2)}
+              </button>
+              <div className="student-profile-dropdown">
+                <div className="dropdown-profile-header">
+                  <strong>{studentUser.fullName}</strong>
+                  <span>{studentUser.email}</span>
+                </div>
+                <button className="dropdown-item-btn" onClick={() => setView('dashboard')}>My Dashboard</button>
+                <button className="dropdown-item-btn" onClick={() => setView('caf')}>Common App (CAF)</button>
+                <button className="dropdown-item-btn logout-item" onClick={onLogoutStudent}>Sign Out</button>
+              </div>
+            </div>
+          ) : (
+            <button className="utility-btn student-signin-btn" onClick={onOpenAuth}>
+              <svg className="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+              Sign In
+            </button>
+          )}
 
           {/* Hamburger Menu Icon (Mobile) */}
           <button className="mobile-menu-toggle" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
@@ -213,6 +259,21 @@ export const Header: React.FC<HeaderProps> = ({ currentView, setView, colleges, 
             <button className="mobile-saarthi-btn" onClick={() => { onShareOpen(); setMobileMenuOpen(false); }} style={{ marginTop: '8px', background: 'linear-gradient(135deg, var(--accent-coral), var(--accent-purple))' }}>
               Share Website Link
             </button>
+            <button className="mobile-saarthi-btn" onClick={() => { setView('admin'); setMobileMenuOpen(false); }} style={{ marginTop: '8px', background: 'rgba(255, 69, 29, 0.15)', border: '1px solid rgba(255, 69, 29, 0.3)', color: 'var(--accent-coral)' }}>
+              🔒 Admin Login / Portal
+            </button>
+            
+            {studentUser ? (
+              <div className="mobile-drawer-student-profile mt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '16px' }}>
+                <span className="text-white text-sm font-bold block mb-2">Signed in: {studentUser.fullName}</span>
+                <button className="mobile-nav-link" onClick={() => { setView('dashboard'); setMobileMenuOpen(false); }}>My Dashboard</button>
+                <button className="mobile-nav-link logout-item" onClick={() => { onLogoutStudent(); setMobileMenuOpen(false); }} style={{ color: '#f44336' }}>Sign Out</button>
+              </div>
+            ) : (
+              <button className="mobile-saarthi-btn mt-4" onClick={() => { onOpenAuth(); setMobileMenuOpen(false); }} style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)' }}>
+                Student Sign In
+              </button>
+            )}
           </nav>
         </div>
       )}

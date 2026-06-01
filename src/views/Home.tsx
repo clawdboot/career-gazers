@@ -127,7 +127,7 @@ export const Home: React.FC<HomeProps> = ({ setView, setStreamFilter, colleges, 
       <section className="home-section-wrapper colleges-showcase-section">
         <div className="section-header">
           <h2>Premium Featured Colleges</h2>
-          <p>Top-rated and highly affiliated universities recommended by Career Grazers counselors.</p>
+          <p>Top-rated and highly affiliated universities recommended by Career Gazers counselors.</p>
         </div>
         <div className="colleges-grid-scroll">
           {featuredColleges.map((college) => (

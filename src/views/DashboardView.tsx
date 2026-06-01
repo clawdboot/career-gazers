@@ -8,6 +8,7 @@ interface DashboardViewProps {
   onSelectCollege: (collegeId: string) => void;
   onRemoveShortlist: (collegeId: string) => void;
   shortlistedColleges: College[];
+  studentUser?: any | null;
 }
 
 export const DashboardView: React.FC<DashboardViewProps> = ({
@@ -16,7 +17,8 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   setView,
   onSelectCollege,
   onRemoveShortlist,
-  shortlistedColleges
+  shortlistedColleges,
+  studentUser
 }) => {
   // If there are no custom submitted applications, let's create a beautiful mock application so the dashboard doesn't look completely empty, or show a clear prompt.
   // We will show a premium clean interface. If applications list is empty, we will present a beautiful welcome prompt to fill CAF, but we will also seed a default realistic application (e.g. Rahul Sharma applied to VIT Vellore) to showcase what it looks like!
@@ -51,14 +53,23 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
     }
   ];
 
-  const activeApps = applications.length > 0 ? applications : defaultMockApps;
+  const userApps = studentUser
+    ? applications.filter(app => app.email.toLowerCase() === studentUser.email.toLowerCase())
+    : applications;
+
+  const activeApps = userApps.length > 0 ? userApps : (studentUser ? [] : defaultMockApps);
 
   return (
     <div className="dashboard-view-container">
       {/* Dashboard Top Banner */}
       <section className="dashboard-intro-banner">
         <div className="profile-badge-row">
-          <div className="profile-avatar-circle">RS</div>
+          <div className="profile-avatar-circle animate-hover">
+            {studentUser 
+              ? studentUser.fullName.split(' ').map((n: string) => n[0]).join('').toUpperCase().substring(0, 2)
+              : 'RS'
+            }
+          </div>
           <div>
             <h1>Student Portal Dashboard</h1>
             <p>Track your Common Application Form (CAF) admissions status, shortlists, and expert counseling bookings.</p>
@@ -155,19 +166,25 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             <div className="profile-specs-table">
               <div className="profile-row-spec">
                 <span>10th Score:</span>
-                <strong>92.4%</strong>
+                <strong>{studentUser?.academics?.marks10 || studentUser?.marks10 || '92.4%'}</strong>
               </div>
               <div className="profile-row-spec">
                 <span>12th Score:</span>
-                <strong>88.5%</strong>
+                <strong>{studentUser?.academics?.marks12 || studentUser?.marks12 || '88.5%'}</strong>
               </div>
               <div className="profile-row-spec">
                 <span>Target Stream:</span>
-                <strong>Engineering</strong>
+                <strong>{studentUser ? (studentUser.streamPreference || studentUser.stream) : 'Engineering'}</strong>
               </div>
               <div className="profile-row-spec">
-                <span>Audited Exams:</span>
-                <strong>JEE Main (AIR 14,200)</strong>
+                <span>Entrance Exam:</span>
+                <strong>
+                  {studentUser?.academics?.exam && studentUser.academics.exam !== 'None'
+                    ? `${studentUser.academics.exam} (${studentUser.academics.score})`
+                    : studentUser?.academics?.marks12 
+                    ? 'Board Merit'
+                    : 'JEE Main (AIR 14,200)'}
+                </strong>
               </div>
             </div>
           </div>

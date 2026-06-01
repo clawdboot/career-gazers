@@ -17,7 +17,7 @@ export const LogoImage: React.FC<SVGProps> = ({ className = 'h-8 w-auto' }) => {
       
       {/* Logo Typography */}
       <text x="66" y="32" fill="white" fontSize="22" fontWeight="800" fontFamily="Outfit, Inter, sans-serif" letterSpacing="0.5">CAREER</text>
-      <text x="66" y="49" fill="url(#accent-grad)" fontSize="15" fontWeight="700" fontFamily="Outfit, Inter, sans-serif" letterSpacing="2">GRAZERS</text>
+      <text x="66" y="49" fill="url(#accent-grad)" fontSize="15" fontWeight="700" fontFamily="Outfit, Inter, sans-serif" letterSpacing="2">GAZERS</text>
       
       <defs>
         <linearGradient id="logo-grad" x1="5" y1="5" x2="53" y2="53" gradientUnits="userSpaceOnUse">

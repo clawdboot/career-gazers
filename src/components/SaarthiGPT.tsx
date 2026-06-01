@@ -11,7 +11,7 @@ interface SaarthiGPTProps {
 export const SaarthiGPT: React.FC<SaarthiGPTProps> = ({ isOpen, onClose, setView, onSelectCollege }) => {
   const [messages, setMessages] = useState<BotMessage[]>([
     {
-      text: "Hello! I am **SaarthiGPT**, your personal AI Career Counselor at Career Grazers. I can help you find your dream college, predict admissions based on your scores, recommend entrance exams, or assist with your Common Application Form (CAF). \n\nWhat would you like to explore today?",
+      text: "Hello! I am **SaarthiGPT**, your personal AI Career Counselor at Career Gazers. I can help you find your dream college, predict admissions based on your scores, recommend entrance exams, or assist with your Common Application Form (CAF). \n\nWhat would you like to explore today?",
       isBot: true,
       options: ['Explore Colleges', 'Predict Admissions', 'Apply to Colleges (CAF)', 'Take Career Compass Quiz']
     }

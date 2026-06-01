@@ -215,17 +215,17 @@ export interface BotMessage {
 export const saarthiReplies: { keywords: string[]; reply: string; options?: string[] }[] = [
   {
     keywords: ['hi', 'hello', 'hey', 'start', 'counseling'],
-    reply: "Hello! I am **SaarthiGPT**, your personal AI Career Counselor at Career Grazers. I can help you find your dream college, predict admissions based on your scores, recommend entrance exams, or assist with your Common Application Form (CAF). \n\nWhat would you like to explore today?",
+    reply: "Hello! I am **SaarthiGPT**, your personal AI Career Counselor at Career Gazers. I can help you find your dream college, predict admissions based on your scores, recommend entrance exams, or assist with your Common Application Form (CAF). \n\nWhat would you like to explore today?",
     options: ['Explore Colleges', 'Predict Admissions', 'Apply to Colleges (CAF)', 'Take Career Compass Quiz']
   },
   {
     keywords: ['engineering', 'btech', 'iit', 'bits', 'dtu', 'vit'],
-    reply: "Engineering is a highly sought-after stream at Career Grazers! We have detailed profiles for premium institutions like:\n- **IIT Delhi** (Public, Avg Package: 22.5 LPA, Exams: JEE Advanced)\n- **BITS Pilani** (Private, Avg Package: 18.2 LPA, Exams: BITSAT)\n- **DTU Delhi** (Public, Avg Package: 15.6 LPA, Exams: JEE Main)\n- **VIT Vellore** (Private, Avg Package: 9.2 LPA, Exams: VITEEE)\n\nWould you like to search all engineering colleges or check the **College Predictor**?",
+    reply: "Engineering is a highly sought-after stream at Career Gazers! We have detailed profiles for premium institutions like:\n- **IIT Delhi** (Public, Avg Package: 22.5 LPA, Exams: JEE Advanced)\n- **BITS Pilani** (Private, Avg Package: 18.2 LPA, Exams: BITSAT)\n- **DTU Delhi** (Public, Avg Package: 15.6 LPA, Exams: JEE Main)\n- **VIT Vellore** (Private, Avg Package: 9.2 LPA, Exams: VITEEE)\n\nWould you like to search all engineering colleges or check the **College Predictor**?",
     options: ['Search Engineering Colleges', 'Open College Predictor', 'View Exam Calendars']
   },
   {
     keywords: ['management', 'mba', 'iim', 'xlri', 'fms', 'cat'],
-    reply: "Management programs are excellent for building leadership! Top institutions on Career Grazers include:\n- **IIM Ahmedabad** (Public, Avg Package: 32.8 LPA, Exams: CAT)\n- **IIM Bangalore** (Public, Avg Package: 31.5 LPA, Exams: CAT)\n- **XLRI Jamshedpur** (Private, Avg Package: 27.2 LPA, Exams: XAT)\n- **FMS Delhi** (Public, legendary ROI with fees of only ₹48,000/yr, Avg Package: 28.0 LPA!)\n\nWhich business school details can I provide for you?",
+    reply: "Management programs are excellent for building leadership! Top institutions on Career Gazers include:\n- **IIM Ahmedabad** (Public, Avg Package: 32.8 LPA, Exams: CAT)\n- **IIM Bangalore** (Public, Avg Package: 31.5 LPA, Exams: CAT)\n- **XLRI Jamshedpur** (Private, Avg Package: 27.2 LPA, Exams: XAT)\n- **FMS Delhi** (Public, legendary ROI with fees of only ₹48,000/yr, Avg Package: 28.0 LPA!)\n\nWhich business school details can I provide for you?",
     options: ['Search MBA Colleges', 'Read FMS Delhi Details', 'Learn about CAT Exam']
   },
   {
@@ -245,7 +245,7 @@ export const saarthiReplies: { keywords: string[]; reply: string; options?: stri
   },
   {
     keywords: ['caf', 'common application', 'apply', 'registration', 'upload'],
-    reply: "The **Common Application Form (CAF)** is Career Grazers' unique feature. It lets you fill in your details, enter academic scores, select up to 3 colleges, upload mock transcripts, and submit a single application to multiple colleges instantly!\n\nWould you like to start your CAF application now?",
+    reply: "The **Common Application Form (CAF)** is Career Gazers' unique feature. It lets you fill in your details, enter academic scores, select up to 3 colleges, upload mock transcripts, and submit a single application to multiple colleges instantly!\n\nWould you like to start your CAF application now?",
     options: ['Fill Common Application (CAF)', 'Track Existing Applications', 'Help with CAF Uploads']
   },
   {

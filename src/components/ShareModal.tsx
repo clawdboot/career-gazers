@@ -13,8 +13,8 @@ export const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose }) => {
   // Since it runs on localhost:5173, let's use the actual window URL,
   // but if it's on localhost, we can also give them a beautiful preview of a production domain!
   const actualUrl = window.location.href;
-  const displayUrl = actualUrl.includes('localhost') ? 'https://www.careergrazers.com' : actualUrl;
-  const shareText = "Find your dream college and shape your career path with Career Grazers! Check out exams, cutoff predictors, and the Common Application Form:";
+  const displayUrl = actualUrl.includes('localhost') ? 'https://www.careergazers.com' : actualUrl;
+  const shareText = "Find your dream college and shape your career path with Career Gazers! Check out exams, cutoff predictors, and the Common Application Form:";
 
   const handleCopyLink = async () => {
     try {
@@ -38,7 +38,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose }) => {
     if (typeof navigator.share !== 'undefined') {
       try {
         await navigator.share({
-          title: 'Career Grazers - Premium Admissions Portal',
+          title: 'Career Gazers - Premium Admissions Portal',
           text: shareText,
           url: displayUrl,
         });
@@ -98,7 +98,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose }) => {
         
         {/* Header */}
         <div className="share-modal-header">
-          <h3>Share Career Grazers</h3>
+          <h3>Share Career Gazers</h3>
           <button className="close-share-btn" onClick={onClose}>
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -166,7 +166,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose }) => {
 
         {/* Footer */}
         <div className="share-modal-footer">
-          <p>Tapping any social link opens the messaging portal in a new tab. Anyone with the copied link can access Career Grazers directly.</p>
+          <p>Tapping any social link opens the messaging portal in a new tab. Anyone with the copied link can access Career Gazers directly.</p>
         </div>
 
       </div>

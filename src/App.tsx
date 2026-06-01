@@ -4,6 +4,7 @@ import { Footer } from './components/Footer';
 import { CompareShelf } from './components/CompareShelf';
 import { SaarthiGPT } from './components/SaarthiGPT';
 import { ShareModal } from './components/ShareModal';
+import { AuthModal } from './components/AuthModal';
 import { AdminView } from './views/AdminView';
 import { Home } from './views/Home';
 import { Directory } from './views/Directory';
@@ -16,30 +17,92 @@ import './App.css';
 
 function App() {
   const [currentView, setView] = useState<string>('home');
+  const [viewHistory, setViewHistory] = useState<string[]>(['home']);
   const [streamFilter, setStreamFilter] = useState<string>('All');
   const [selectedCompare, setSelectedCompare] = useState<College[]>([]);
   const [shortlistedColleges, setShortlistedColleges] = useState<College[]>([]);
   
+  // Student auth states
+  const [studentUser, setStudentUser] = useState<any | null>(() => {
+    const stored = localStorage.getItem('careergazers_active_student');
+    return stored ? JSON.parse(stored) : null;
+  });
+  const [authModalOpen, setAuthModalOpen] = useState<boolean>(false);
+
   // Persistent localStorage applications & leads states
   const [applications, setApplications] = useState<any[]>(() => {
-    const stored = localStorage.getItem('careergrazers_applications');
+    const stored = localStorage.getItem('careergazers_applications');
     return stored ? JSON.parse(stored) : [];
   });
   const [leads, setLeads] = useState<any[]>(() => {
-    const stored = localStorage.getItem('careergrazers_leads');
+    const stored = localStorage.getItem('careergazers_leads');
     return stored ? JSON.parse(stored) : [];
   });
+
+  // Dynamic colleges database state
+  const [colleges, setColleges] = useState<College[]>(() => {
+    const stored = localStorage.getItem('careergazers_colleges');
+    return stored ? JSON.parse(stored) : collegesData;
+  });
+
+  const handleAddCollege = (newCol: College) => {
+    setColleges(prev => {
+      const updated = [...prev, newCol];
+      localStorage.setItem('careergazers_colleges', JSON.stringify(updated));
+      return updated;
+    });
+  };
+
+  const handleDeleteCollege = (collegeId: string) => {
+    setColleges(prev => {
+      const updated = prev.filter(col => col.id !== collegeId);
+      localStorage.setItem('careergazers_colleges', JSON.stringify(updated));
+      return updated;
+    });
+  };
 
   const [preselectedCollegeName, setPreselectedCollegeName] = useState<string | null>(null);
   const [activeSelectedCollegeId, setActiveSelectedCollegeId] = useState<string | null>(null);
   const [saarthiOpen, setSaarthiOpen] = useState<boolean>(false);
   const [shareOpen, setShareOpen] = useState<boolean>(false);
 
+  // Custom navigation wrapper to record history
+  const navigateToView = (newView: string) => {
+    setViewHistory(prev => {
+      if (prev[prev.length - 1] === newView) return prev;
+      return [...prev, newView];
+    });
+    setView(newView);
+  };
+
+  const handleGoBack = () => {
+    if (viewHistory.length > 1) {
+      const updatedHistory = [...viewHistory];
+      updatedHistory.pop(); // remove current view
+      const prevView = updatedHistory[updatedHistory.length - 1];
+      setViewHistory(updatedHistory);
+      setView(prevView);
+    } else {
+      setView('home');
+    }
+  };
+
+  const handleStudentLogin = (user: any) => {
+    setStudentUser(user);
+    localStorage.setItem('careergazers_active_student', JSON.stringify(user));
+  };
+
+  const handleStudentLogout = () => {
+    setStudentUser(null);
+    localStorage.removeItem('careergazers_active_student');
+    navigateToView('home');
+  };
+
   // Switch to directory and load college modal
   const handleSelectCollege = (collegeId: string) => {
     setActiveSelectedCollegeId(collegeId);
     setStreamFilter('All');
-    setView('directory');
+    navigateToView('directory');
   };
 
   // Toggle college selection in bottom compare shelf
@@ -66,7 +129,7 @@ function App() {
   // Pre-fills a college and redirects to CAF form
   const handleApplyCollegeDirect = (collegeName: string) => {
     setPreselectedCollegeName(collegeName);
-    setView('caf');
+    navigateToView('caf');
   };
 
   const handleClearPreselectedCollege = () => {
@@ -93,7 +156,7 @@ function App() {
   const handleSubmitCAF = (newApp: any) => {
     setApplications(prev => {
       const updated = [newApp, ...prev];
-      localStorage.setItem('careergrazers_applications', JSON.stringify(updated));
+      localStorage.setItem('careergazers_applications', JSON.stringify(updated));
       return updated;
     });
   };
@@ -102,7 +165,7 @@ function App() {
   const handleAddLead = (newLead: any) => {
     setLeads(prev => {
       const updated = [newLead, ...prev];
-      localStorage.setItem('careergrazers_leads', JSON.stringify(updated));
+      localStorage.setItem('careergazers_leads', JSON.stringify(updated));
       return updated;
     });
   };
@@ -124,7 +187,7 @@ function App() {
         }
         return app;
       });
-      localStorage.setItem('careergrazers_applications', JSON.stringify(updated));
+      localStorage.setItem('careergazers_applications', JSON.stringify(updated));
       return updated;
     });
   };
@@ -137,7 +200,7 @@ function App() {
         }
         return lead;
       });
-      localStorage.setItem('careergrazers_leads', JSON.stringify(updated));
+      localStorage.setItem('careergazers_leads', JSON.stringify(updated));
       return updated;
     });
   };
@@ -150,20 +213,33 @@ function App() {
       {/* Global Navbar */}
       <Header
         currentView={currentView}
-        setView={setView}
-        colleges={collegesData}
+        setView={navigateToView}
+        colleges={colleges}
         onSelectCollege={handleSelectCollege}
         openChat={handleOpenChat}
         onShareOpen={() => setShareOpen(true)}
+        studentUser={studentUser}
+        onOpenAuth={() => setAuthModalOpen(true)}
+        onLogoutStudent={handleStudentLogout}
       />
+
+      {/* Floating In-App Back Navigation Button */}
+      {currentView !== 'home' && (
+        <button className="global-back-btn animate-fadeIn" onClick={handleGoBack} title="Go Back">
+          <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          <span>Back</span>
+        </button>
+      )}
 
       {/* Main View Portals */}
       <main className="main-content-scroll">
         {currentView === 'home' && (
           <Home
-            setView={setView}
+            setView={navigateToView}
             setStreamFilter={setStreamFilter}
-            colleges={collegesData}
+            colleges={colleges}
             onSelectCollege={handleSelectCollege}
             openChat={handleOpenChat}
             onAddLead={handleAddLead}
@@ -171,8 +247,8 @@ function App() {
         )}
         {currentView === 'directory' && (
           <Directory
-            colleges={collegesData}
-            setView={setView}
+            colleges={colleges}
+            setView={navigateToView}
             streamFilter={streamFilter}
             setStreamFilter={setStreamFilter}
             selectedCompare={selectedCompare}
@@ -184,33 +260,36 @@ function App() {
         )}
         {currentView === 'predictor' && (
           <PredictorView
-            colleges={collegesData}
+            colleges={colleges}
             onApplyCollegeDirect={handleApplyCollegeDirect}
+            studentUser={studentUser}
           />
         )}
         {currentView === 'compass' && (
           <CompassView
-            setView={setView}
+            setView={navigateToView}
             setStreamFilter={setStreamFilter}
           />
         )}
         {currentView === 'caf' && (
           <CafView
-            colleges={collegesData}
-            setView={setView}
+            colleges={colleges}
+            setView={navigateToView}
             preselectedCollegeName={preselectedCollegeName}
             clearPreselectedCollege={handleClearPreselectedCollege}
             onSubmitCAF={handleSubmitCAF}
+            studentUser={studentUser}
           />
         )}
         {currentView === 'dashboard' && (
           <DashboardView
             applications={applications}
-            colleges={collegesData}
-            setView={setView}
+            colleges={colleges}
+            setView={navigateToView}
             onSelectCollege={handleSelectCollege}
             onRemoveShortlist={handleRemoveShortlist}
             shortlistedColleges={shortlistedColleges}
+            studentUser={studentUser}
           />
         )}
         {currentView === 'admin' && (
@@ -219,6 +298,9 @@ function App() {
             leads={leads}
             onUpdateAppStatus={handleUpdateAppStatus}
             onUpdateLeadStatus={handleUpdateLeadStatus}
+            colleges={colleges}
+            onAddCollege={handleAddCollege}
+            onDeleteCollege={handleDeleteCollege}
           />
         )}
       </main>
@@ -235,7 +317,7 @@ function App() {
       <SaarthiGPT
         isOpen={saarthiOpen}
         onClose={handleCloseChat}
-        setView={setView}
+        setView={navigateToView}
         onSelectCollege={handleSelectCollege}
       />
 
@@ -245,8 +327,15 @@ function App() {
         onClose={() => setShareOpen(false)}
       />
 
+      {/* Student Authorization Modal (Sign In / Sign Up) */}
+      <AuthModal
+        isOpen={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+        onLoginSuccess={handleStudentLogin}
+      />
+
       {/* Sitemap Footer */}
-      <Footer setView={setView} />
+      <Footer setView={navigateToView} />
     </div>
   );
 }

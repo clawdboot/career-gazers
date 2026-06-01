@@ -2766,7 +2766,14 @@
 .splash-icon-holder {
   display: flex;
   justify-content: center;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
+}
+
+.splash-icon-holder svg {
+  width: 64px;
+  height: 64px;
+  color: var(--accent-coral);
+  filter: drop-shadow(0 4px 10px rgba(255, 69, 29, 0.2));
 }
 
 .quiz-splash-card h2 {
@@ -4652,7 +4659,14 @@
 .admin-lock-icon {
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
+}
+
+.admin-lock-icon svg {
+  width: 48px;
+  height: 48px;
+  color: var(--accent-coral);
+  filter: drop-shadow(0 4px 10px rgba(255, 69, 29, 0.2));
 }
 
 .admin-login-card h2 {
@@ -5086,5 +5100,291 @@
   flex-direction: column;
   justify-content: center;
 }
+
+/* ==========================================================================
+   GLOBAL BACK BUTTON & NAVIGATION STYLING
+   ========================================================================== */
+.global-back-btn {
+  position: fixed;
+  top: 92px;
+  left: 20px;
+  z-index: 1080;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 30px;
+  color: var(--primary-navy);
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(12, 23, 48, 0.08);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.global-back-btn:hover {
+  background: var(--primary-navy);
+  color: white;
+  border-color: var(--primary-navy);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(12, 23, 48, 0.16);
+}
+.global-back-btn svg {
+  transition: transform 0.3s ease;
+}
+.global-back-btn:hover svg {
+  transform: translateX(-4px);
+}
+
+@media (max-width: 1200px) {
+  .global-back-btn {
+    position: absolute;
+    top: 90px;
+    left: 16px;
+  }
+}
+
+/* ==========================================================================
+   STUDENT AUTHENTICATION NAVIGATION & AVATARS
+   ========================================================================== */
+.student-signin-btn {
+  background: linear-gradient(135deg, var(--accent-coral), var(--accent-purple)) !important;
+  color: white !important;
+  font-weight: 700 !important;
+  border-radius: 24px !important;
+  padding: 8px 20px !important;
+  box-shadow: 0 4px 12px rgba(255, 69, 29, 0.25);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none !important;
+}
+.student-signin-btn:hover {
+  transform: translateY(-1.5px);
+  box-shadow: 0 6px 18px rgba(255, 69, 29, 0.4);
+}
+.student-signin-btn svg {
+  transition: transform 0.3s ease;
+}
+.student-signin-btn:hover svg {
+  transform: scale(1.1);
+}
+
+.header-student-profile-wrapper {
+  position: relative;
+  display: inline-block;
+}
+.student-profile-avatar-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50% !important;
+  background: linear-gradient(135deg, var(--accent-purple), #9c27b0) !important;
+  color: white !important;
+  font-weight: 800 !important;
+  font-size: 0.9rem !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(255, 255, 255, 0.3) !important;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(122, 0, 255, 0.2);
+  transition: all 0.3s ease;
+}
+.student-profile-avatar-btn:hover {
+  border-color: white !important;
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(122, 0, 255, 0.35);
+}
+
+.student-profile-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 10px;
+  width: 230px;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(12, 23, 48, 0.08);
+  border-radius: var(--border-radius-md);
+  box-shadow: 0 12px 36px rgba(12, 23, 48, 0.16);
+  padding: 12px 0;
+  z-index: 1090;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.header-student-profile-wrapper:hover .student-profile-dropdown,
+.student-profile-dropdown:hover {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-profile-header {
+  padding: 4px 18px 12px 18px;
+  border-bottom: 1px solid rgba(12, 23, 48, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.dropdown-profile-header strong {
+  font-size: 0.9rem;
+  color: var(--primary-navy);
+  font-weight: 800;
+}
+.dropdown-profile-header span {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.dropdown-item-btn {
+  background: transparent;
+  border: none;
+  text-align: left;
+  padding: 10px 18px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--primary-navy);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+.dropdown-item-btn:hover {
+  background: rgba(12, 23, 48, 0.03);
+  color: var(--accent-purple);
+  padding-left: 24px;
+}
+.dropdown-item-btn.logout-item {
+  color: #f44336;
+  border-top: 1px solid rgba(12, 23, 48, 0.06);
+  margin-top: 6px;
+}
+.dropdown-item-btn.logout-item:hover {
+  background: rgba(244, 67, 54, 0.05);
+  color: #f44336;
+}
+
+/* ==========================================================================
+   ADMIN PORTAL NAVIGATION & LABELS
+   ========================================================================== */
+.admin-toggle-btn {
+  background: transparent !important;
+  border: none !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+  padding: 6px 12px !important;
+  border-radius: 8px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  font-family: 'Outfit', sans-serif !important;
+  font-weight: 700 !important;
+  transition: all 0.2s ease !important;
+}
+.admin-toggle-btn:hover, .admin-toggle-btn.active {
+  color: var(--accent-coral) !important;
+  background-color: rgba(255, 255, 255, 0.08) !important;
+}
+.admin-toggle-btn svg {
+  color: inherit !important;
+  width: 18px !important;
+  height: 18px !important;
+}
+.admin-toggle-btn .admin-btn-label {
+  font-size: 0.8rem !important;
+  font-weight: 700 !important;
+}
+
+@media (max-width: 1220px) {
+  .admin-toggle-btn .admin-btn-label {
+    display: none !important;
+  }
+  .admin-toggle-btn {
+    padding: 6px 8px !important;
+  }
+}
+
+/* ==========================================================================
+   AUTH MODAL AND FORMS
+   ========================================================================== */
+.auth-modal-card {
+  background: white;
+  border-radius: var(--border-radius-lg);
+  box-shadow: 0 20px 60px rgba(12, 23, 48, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  padding: 28px;
+  width: 100%;
+  position: relative;
+  transition: all 0.3s ease;
+}
+.auth-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1.5px solid rgba(12, 23, 48, 0.08);
+  padding-bottom: 16px;
+  margin-bottom: 18px;
+}
+.auth-modal-header h3 {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--primary-navy);
+  margin: 0;
+  font-family: 'Outfit', sans-serif;
+}
+.auth-tabs-row {
+  display: flex;
+  border-bottom: 1.5px solid rgba(12, 23, 48, 0.06);
+  margin-bottom: 24px;
+  gap: 20px;
+}
+.auth-tab-btn {
+  background: transparent;
+  border: none;
+  padding: 12px 4px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+}
+.auth-tab-btn:hover {
+  color: var(--primary-navy);
+}
+.auth-tab-btn.active {
+  color: var(--accent-purple);
+}
+.auth-tab-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1.5px;
+  left: 0;
+  width: 100%;
+  height: 2.5px;
+  background-color: var(--accent-purple);
+  border-radius: 2px;
+}
+
+.academic-box-highlight-auth {
+  background-color: rgba(122, 0, 255, 0.03);
+  border: 1px dashed rgba(122, 0, 255, 0.2);
+  border-radius: var(--border-radius-md);
+  padding: 18px;
+  border-left: 4px solid var(--accent-purple);
+}
+.academic-box-highlight-auth h4 {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--accent-purple);
+  margin: 0 0 6px 0;
+  font-family: 'Outfit', sans-serif;
+}
+
 
 

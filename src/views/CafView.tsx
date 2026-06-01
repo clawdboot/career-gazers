@@ -7,6 +7,7 @@ interface CafViewProps {
   preselectedCollegeName: string | null;
   clearPreselectedCollege: () => void;
   onSubmitCAF: (app: any) => void;
+  studentUser?: any | null;
 }
 
 export const CafView: React.FC<CafViewProps> = ({
@@ -14,23 +15,24 @@ export const CafView: React.FC<CafViewProps> = ({
   setView,
   preselectedCollegeName,
   clearPreselectedCollege,
-  onSubmitCAF
+  onSubmitCAF,
+  studentUser
 }) => {
   const [step, setStep] = useState(1);
 
   // Form Fields State
-  const [fullName, setFullName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
+  const [fullName, setFullName] = useState(studentUser?.fullName || '');
+  const [email, setEmail] = useState(studentUser?.email || '');
+  const [phone, setPhone] = useState(studentUser?.phone || '');
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
   
-  const [marks10, setMarks10] = useState('');
-  const [marks12, setMarks12] = useState('');
-  const [entranceExam, setEntranceExam] = useState('JEE Main');
-  const [entranceScore, setEntranceScore] = useState('');
+  const [marks10, setMarks10] = useState(studentUser?.academics?.marks10 || '');
+  const [marks12, setMarks12] = useState(studentUser?.academics?.marks12 || '');
+  const [entranceExam, setEntranceExam] = useState(studentUser?.academics?.exam || 'JEE Main');
+  const [entranceScore, setEntranceScore] = useState(studentUser?.academics?.score || '');
 
-  const [stream, setStream] = useState('Engineering');
+  const [stream, setStream] = useState(studentUser?.streamPreference || 'Engineering');
   const [chosenColleges, setChosenColleges] = useState<string[]>([]);
   
   const [uploadedFiles, setUploadedFiles] = useState<{ name: string; size: string }[]>([]);
@@ -47,6 +49,20 @@ export const CafView: React.FC<CafViewProps> = ({
       setStep(3); // Direct user to Preferences step
     }
   }, [preselectedCollegeName, colleges]);
+
+  // Pre-fill user profile fields when logged-in student user state is loaded or updated
+  useEffect(() => {
+    if (studentUser) {
+      setFullName(studentUser.fullName || '');
+      setEmail(studentUser.email || '');
+      setPhone(studentUser.phone || '');
+      setMarks10(studentUser.academics?.marks10 || '');
+      setMarks12(studentUser.academics?.marks12 || '');
+      setEntranceExam(studentUser.academics?.exam || 'JEE Main');
+      setEntranceScore(studentUser.academics?.score || '');
+      setStream(studentUser.streamPreference || 'Engineering');
+    }
+  }, [studentUser]);
 
   const handleNextStep = () => {
     if (step < 4) setStep(step + 1);
